@@ -22,6 +22,9 @@ export default function Home() {
         body: JSON.stringify({ username, password }),
       });
 
+      console.log("Response status:", res.status);
+      const text = await res.text(); // get raw response
+      console.log("Raw response:", text);
       const data = await res.json();
 
       if (res.ok && data.message === "Login success") {
@@ -29,9 +32,16 @@ export default function Home() {
       } else {
         setMessage("❌ " + (data.message || "Invalid credentials"));
       }
-    } catch (error) {
-      setMessage("⚠️ Something went wrong");
-    }
+    } catch (error: any) {
+  console.error("LOGIN ERROR FULL DETAILS:");
+  console.error("Message:", error?.message);
+  console.error("Stack:", error?.stack);
+  console.error("Full Error Object:", error);
+
+  setMessage(
+    "⚠️ Error: " + (error?.message || "Something went wrong")
+  );
+}
 
     setLoading(false);
   };
