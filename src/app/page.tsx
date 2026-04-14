@@ -6,14 +6,28 @@ export default function Home() {
   const [password, setPassword] = useState("");
 
   const login = async () => {
+  try {
     const res = await fetch("/api/login", {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({ username, password }),
     });
 
     const data = await res.json();
-    alert(data.message);
-  };
+
+    if (!res.ok) {
+      setMessage(data.message || "Login failed");
+      return;
+    }
+
+    setMessage("✅ " + data.message);
+  } catch (error) {
+    console.error("FETCH ERROR:", error);
+    setMessage("⚠️ Server not reachable");
+  }
+};  
 
   return (
     <div style={{ padding: 40 }}>
