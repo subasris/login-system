@@ -9,7 +9,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault(); // prevents page refresh
+    e.preventDefault();
     setLoading(true);
     setMessage("");
 
@@ -25,9 +25,9 @@ export default function Home() {
       const data = await res.json();
 
       if (res.ok && data.message === "Login success") {
-        setMessage("✅ Login successful!");
+        setMessage("✅ " + data.message);
       } else {
-        setMessage("❌ Invalid username or password");
+        setMessage("❌ " + (data.message || "Invalid credentials"));
       }
     } catch (error) {
       setMessage("⚠️ Something went wrong");
@@ -37,36 +37,58 @@ export default function Home() {
   };
 
   return (
-    <div style={{ padding: 40 }}>
-      <h1>Login Page</h1>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-900 via-purple-900 to-black">
+      <div className="bg-white/10 backdrop-blur-lg p-8 rounded-2xl shadow-2xl w-full max-w-md border border-white/20">
 
-      <form onSubmit={handleSubmit}>
-        <input
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          style={{ display: "block", margin: "10px 0" }}
-        />
+        {/* Heading */}
+        <h1 className="text-2xl font-bold text-center text-white mb-6">
+          Mar3K Student ICE Registration
+        </h1>
 
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          style={{ display: "block", margin: "10px 0" }}
-        />
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
 
-        <button type="submit" disabled={loading}>
-          {loading ? "Checking..." : "Login"}
-        </button>
-      </form>
+          {/* Username */}
+          <div>
+            <label className="text-white text-sm">Username</label>
+            <input
+              type="text"
+              placeholder="Enter username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="w-full p-3 rounded-lg mt-1 bg-white/90 outline-none"
+            />
+          </div>
 
-      {/* Result message */}
-      {message && (
-        <p style={{ marginTop: 20, fontWeight: "bold" }}>
-          {message}
-        </p>
-      )}
+          {/* Password */}
+          <div>
+            <label className="text-white text-sm">Password</label>
+            <input
+              type="password"
+              placeholder="Enter password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full p-3 rounded-lg mt-1 bg-white/90 outline-none"
+            />
+          </div>
+
+          {/* Button */}
+          <button
+            type="submit"
+            disabled={loading}
+            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold p-3 rounded-lg transition"
+          >
+            {loading ? "Checking..." : "Submit"}
+          </button>
+        </form>
+
+        {/* Message */}
+        {message && (
+          <p className="text-center mt-4 text-white font-medium">
+            {message}
+          </p>
+        )}
+      </div>
     </div>
   );
 }
