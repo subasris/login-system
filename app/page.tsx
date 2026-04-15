@@ -42,7 +42,7 @@ export default function Home() {
 
         {/* Heading */}
         <h1 className="text-2xl font-bold text-center text-white mb-6">
-          Mar3K Student ICE Registration
+          Mar3K Student ICE Login
         </h1>
 
         {/* Form */}
